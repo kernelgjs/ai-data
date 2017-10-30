@@ -1,0 +1,27 @@
+# epoch_num = 100
+# iter = iter_size * batch_size = 512 img
+# test_interval = epoch = total_num / iter = 770
+# max_iter = epoch_num * epoch = 77000
+# test_iter = test_num / batch_size = 1680
+
+net: "../train_val.prototxt"
+
+test_iter: 1680
+test_interval: 770
+
+iter_size: 16 #global batch size = batch_size * iter_size
+max_iter: 77000
+
+base_lr: 0.01
+lr_policy: "poly"
+power: 1.0 #linearly decrease LR
+momentum: 0.9
+weight_decay: 0.0002
+
+display: 40
+snapshot: 1000
+snapshot_prefix: "train"
+solver_mode: GPU
+random_seed: 42
+test_initialization: false
+average_loss: 40
