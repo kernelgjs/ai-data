@@ -1,3 +1,0 @@
-/home/gjs/work/txt_caffe_model/build/CMakeFiles/edit_cache.dir
-/home/gjs/work/txt_caffe_model/build/CMakeFiles/rebuild_cache.dir
-/home/gjs/work/txt_caffe_model/build/CMakeFiles/to_txt_model.dir

@@ -1,1 +1,0 @@
-/usr/bin/c++      CMakeFiles/to_txt_model.dir/main.cpp.o  -o to_txt_model -rdynamic /home/gjs/work/caffe/build/lib/libcaffe.so -lglog -lboost_system -Wl,-rpath,/home/gjs/work/caffe/build/lib 
