@@ -1,0 +1,339 @@
+name: "RNet"
+layer {
+  name: "data"
+  type: "Input"
+  top: "data"
+  phase: TEST
+  input_param {
+    shape {
+      dim: 1
+      dim: 3
+      dim: 24
+      dim: 24
+    }
+  }
+}
+layer {
+  name: "conv1"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv1"
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  blobs {
+
+    shape {
+      dim: 28
+      dim: 3
+      dim: 3
+      dim: 3
+    }
+  }
+  blobs {
+
+    shape {
+      dim: 28
+    }
+  }
+  phase: TEST
+  convolution_param {
+    num_output: 28
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "prelu1"
+  type: "PReLU"
+  bottom: "conv1"
+  top: "conv1"
+  blobs {
+
+    shape {
+      dim: 28
+    }
+  }
+  phase: TEST
+  propagate_down: true
+}
+layer {
+  name: "pool1"
+  type: "Pooling"
+  bottom: "conv1"
+  top: "pool1"
+  phase: TEST
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "conv2"
+  type: "Convolution"
+  bottom: "pool1"
+  top: "conv2"
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  blobs {
+    shape {
+      dim: 48
+      dim: 28
+      dim: 3
+      dim: 3
+    }
+  }
+  blobs {
+    shape {
+      dim: 48
+    }
+  }
+  phase: TEST
+  convolution_param {
+    num_output: 48
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "prelu2"
+  type: "PReLU"
+  bottom: "conv2"
+  top: "conv2"
+  blobs {
+    shape {
+      dim: 48
+    }
+  }
+  phase: TEST
+  propagate_down: true
+}
+layer {
+  name: "pool2"
+  type: "Pooling"
+  bottom: "conv2"
+  top: "pool2"
+  phase: TEST
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "conv3"
+  type: "Convolution"
+  bottom: "pool2"
+  top: "conv3"
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  blobs {
+    shape {
+      dim: 64
+      dim: 48
+      dim: 2
+      dim: 2
+    }
+  }
+  blobs {
+    shape {
+      dim: 64
+    }
+  }
+  phase: TEST
+  convolution_param {
+    num_output: 64
+    kernel_size: 2
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "prelu3"
+  type: "PReLU"
+  bottom: "conv3"
+  top: "conv3"
+  blobs {
+    shape {
+      dim: 64
+    }
+  }
+  phase: TEST
+  propagate_down: true
+}
+layer {
+  name: "conv4"
+  type: "InnerProduct"
+  bottom: "conv3"
+  top: "conv4"
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  blobs {
+    shape {
+      dim: 128
+      dim: 576
+    }
+  }
+  blobs {
+    shape {
+      dim: 128
+    }
+  }
+  phase: TEST
+  inner_product_param {
+    num_output: 128
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "prelu4"
+  type: "PReLU"
+  bottom: "conv4"
+  top: "conv4"
+  blobs {
+    data: -0.495095103979
+    shape {
+      dim: 128
+    }
+  }
+  phase: TEST
+}
+layer {
+  name: "conv4_prelu4_0_split"
+  type: "Split"
+  bottom: "conv4"
+  top: "conv4_prelu4_0_split_0"
+  top: "conv4_prelu4_0_split_1"
+  phase: TEST
+}
+layer {
+  name: "conv5-1"
+  type: "InnerProduct"
+  bottom: "conv4_prelu4_0_split_0"
+  top: "conv5-1"
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  blobs {
+    data: 0.737975180149
+    shape {
+      dim: 2
+      dim: 128
+    }
+  }
+  blobs {
+    shape {
+      dim: 2
+    }
+  }
+  phase: TEST
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "conv5-2"
+  type: "InnerProduct"
+  bottom: "conv4_prelu4_0_split_1"
+  top: "conv5-2"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  param {
+    lr_mult: 2.0
+    decay_mult: 1.0
+  }
+  blobs {
+    data: -0.0254670754075
+    shape {
+      dim: 4
+      dim: 128
+    }
+  }
+  blobs {
+    shape {
+      dim: 4
+    }
+  }
+  phase: TEST
+  inner_product_param {
+    num_output: 4
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "prob1"
+  type: "Softmax"
+  bottom: "conv5-1"
+  top: "prob1"
+  phase: TEST
+}
